@@ -90,24 +90,35 @@ def copy_files_app():
     s1 = ttk.Style()
     s1.configure("Horizontal.TScrollbar", troughcolor="lightgray", sliderthickness=10)
     s1.configure("Vertical.TScrollbar", troughcolor="lightgray", sliderthickness=10)
-    s1.configure("copy_frame.TFrame", background='Orange')
+    s1.configure("copy_frame.TFrame") #,background='Orange')
 
     copy_frame = ttk.Frame(window, style="copy_frame.TFrame")
     copy_frame.grid(row=0, column=0, sticky='nsew')
-    copy_frame.columnconfigure(0, weight=1)  # Configure column weight
-    copy_frame.rowconfigure(0, weight=1)     # Configure row weight
+    
+    # window.grid_rowconfigure(0, weight=1)  # Row 0
+    # window.grid_rowconfigure(1, weight=1)  # Row 1
+    
+    # window.grid_columnconfigure(0, weight=1)  # Column 0
+    # window.grid_columnconfigure(1, weight=1)  # Column 1
+        
+    copy_frame.columnconfigure(0, weight=9)  # Configure column weight
+    copy_frame.columnconfigure(1, weight=1)  # Configure column weight
+    copy_frame.rowconfigure(0, weight=9)     # Configure row weight
+    copy_frame.rowconfigure(1, weight=1)     # Configure row weight
 
     copy_canvas = tk.Canvas(copy_frame, borderwidth=0, highlightthickness=0)
     copy_canvas.grid(row=0, column=0, sticky="nsew")
 
     scrollbar_x = ttk.Scrollbar(copy_frame, orient="horizontal", style="Horizontal.TScrollbar", command=copy_canvas.xview)
-    scrollbar_x.grid(row=1, column=0, sticky="ew")
+    scrollbar_x.grid(row=1, column=0, sticky="ews")
     scrollbar_y = ttk.Scrollbar(copy_frame, orient="vertical", style="Vertical.TScrollbar", command=copy_canvas.yview)
-    scrollbar_y.grid(row=0, column=1, sticky="ns")
+    scrollbar_y.grid(row=0, column=1, sticky="nse")
     copy_canvas.configure(xscrollcommand=scrollbar_x.set, yscrollcommand=scrollbar_y.set)
 
     copy_content_frame = ttk.Frame(copy_canvas)
     copy_canvas.create_window((0, 0), window=copy_content_frame, anchor="nw")
+    copy_content_frame.columnconfigure(0, weight=1)  # Configure column weight
+    copy_content_frame.rowconfigure(0, weight=1) 
     image_copy_app = ImageCopyApp(copy_content_frame)
 
     # title_label = ttk.Label(copy_content_frame, text="Copy images from folders")

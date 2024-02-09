@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 from datetime import datetime
 from PIL import Image
 import shutil
@@ -8,7 +8,7 @@ import shutil
 class ImageSorterYearApp:
     def __init__(self, master):
         self.master = master
-        # self.master.title("Image Sorter")
+        # self.master.title("Sorting by Year Module")
         self.input_folder_path = tk.StringVar()
         self.output_folder_path = tk.StringVar()
         self.selected_extension = tk.StringVar()
@@ -24,52 +24,60 @@ class ImageSorterYearApp:
         main_frame = tk.Frame(self.master, padx=20, pady=20)
         main_frame.pack(expand=True)
 
+        # Label at the top
+        top_label = tk.Label(main_frame, text="Sorting by Year Module", font=("Helvetica", 16))
+        top_label.grid(row=0, column=0, columnspan=3, pady=10)
+
         # Label and Entry for source folder
         source_label = tk.Label(main_frame, text="Source Folder:")
-        source_label.grid(row=0, column=0, sticky="e")
+        source_label.grid(row=1, column=0, sticky="e")
 
         source_entry = tk.Entry(main_frame, textvariable=self.input_folder_path, width=40)
-        source_entry.grid(row=0, column=1, padx=10)
+        source_entry.grid(row=1, column=1, padx=10)
 
         browse_source_button = tk.Button(main_frame, text="Browse", command=self.browse_source_folder)
-        browse_source_button.grid(row=0, column=2)
+        browse_source_button.grid(row=1, column=2)
 
         # Label and Entry for output folder
         output_label = tk.Label(main_frame, text="Output Folder:")
-        output_label.grid(row=1, column=0, sticky="e")
+        output_label.grid(row=2, column=0, sticky="e")
 
         output_entry = tk.Entry(main_frame, textvariable=self.output_folder_path, width=40)
-        output_entry.grid(row=1, column=1, padx=10)
+        output_entry.grid(row=2, column=1, padx=10)
 
         browse_output_button = tk.Button(main_frame, text="Browse", command=self.browse_output_folder)
-        browse_output_button.grid(row=1, column=2)
+        browse_output_button.grid(row=2, column=2)
 
         # Dropdown for selecting file extensions
         extension_label = tk.Label(main_frame, text="Select Extension:")
-        extension_label.grid(row=2, column=0, sticky="e")
+        extension_label.grid(row=3, column=0, sticky="e")
 
         extension_dropdown = ttk.Combobox(main_frame, textvariable=self.selected_extension, values=['All'] + self.extensions)
-        extension_dropdown.grid(row=2, column=1, padx=10)
+        extension_dropdown.grid(row=3, column=1, padx=10)
         extension_dropdown.current(0)  # Set the default selection to 'All'
 
         # Counter label
         counter_label = tk.Label(main_frame, text="Sorted Files:")
-        counter_label.grid(row=3, column=0, sticky="e")
+        counter_label.grid(row=4, column=0, sticky="e")
 
         self.counter_var = tk.StringVar()
         counter_value_label = tk.Label(main_frame, textvariable=self.counter_var)
-        counter_value_label.grid(row=3, column=1, padx=10)
+        counter_value_label.grid(row=4, column=1, padx=10)
 
         # Error display label
         error_label = tk.Label(main_frame, text="Errors:")
-        error_label.grid(row=4, column=0, sticky="e")
+        error_label.grid(row=5, column=0, sticky="e")
 
         error_display_label = tk.Label(main_frame, textvariable=self.error_message, fg="red")
-        error_display_label.grid(row=4, column=1, padx=10, sticky="w")
+        error_display_label.grid(row=5, column=1, padx=10, sticky="w")
+
+        # Description label
+        description_label = tk.Label(main_frame, text="Description: This module organizes images by the year of creation.")
+        description_label.grid(row=6, column=0, columnspan=3, pady=10)
 
         # Submit Button
         self.submit_button = tk.Button(main_frame, text="Submit", command=self.organize_images, state=tk.NORMAL)
-        self.submit_button.grid(row=5, column=1, pady=10)
+        self.submit_button.grid(row=7, column=1, pady=10)
 
     def browse_source_folder(self):
         source_folder_path = filedialog.askdirectory()
@@ -161,7 +169,7 @@ class ImageSorterYearApp:
         self.error_message.set("")  # Clear error message
         self.modifications_made = False  # Reset modifications flag
         self.submit_button["state"] = tk.DISABLED  # Disable submit button
-        tk.messagebox.showinfo("Success", "Image sorting completed.")
+        messagebox.showinfo("Success", "Image sorting completed.")
 
 if __name__ == "__main__":
     root = tk.Tk()
